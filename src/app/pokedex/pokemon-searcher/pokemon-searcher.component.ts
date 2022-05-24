@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { PokemonInfo, PokemonListItem, PokemonService } from '../../services/pokemon.service';
 
 @Component({
   selector: 'app-pokemon-searcher',
@@ -8,20 +9,42 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class PokemonSearcherComponent implements OnInit {
 
+  pokemonList: PokemonListItem[] = []
+  suggestionOptions: PokemonListItem[] = []
+  pokemonSelected: PokemonInfo = null
   formFilter: FormGroup = new FormGroup({
     searcher: new FormControl(''),
   })
 
   get searcher() { return this.formFilter.controls.searcher.value }
 
-  constructor() { }
+  constructor(private searchPokemonService: PokemonService) { }
 
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.pokemonList = await this.searchPokemonService.getAllPokemons()
   }
 
-  onSearchPokemon() {
-    console.log('search text', this.formFilter.controls.searcher.value);
+  async onSearchPokemon() {
+    if (!this.searcher) { return this.suggestionOptions = [] }
+    this.suggestionOptions = this.pokemonList
+      .filter(cur => cur.name.includes(this.searcher))
+      .sort((a, b) => {
+        if (a.name > b.name) { return 1 }
+        if (a.name < b.name) { return -1 }
+        return 0
+      })
+      .slice(0, 10)
+  }
+
+  async onSelectPokemon(selectedPokemon: string) {
+    this.suggestionOptions = []
+    this.pokemonSelected = await this.searchPokemonService.getPokemon(selectedPokemon)
+    console.log(this.pokemonSelected);
+  }
+
+  getSelectedPokemonImage() {
+    return this.pokemonSelected.sprites.other['official-artwork'].front_default
   }
 
 }

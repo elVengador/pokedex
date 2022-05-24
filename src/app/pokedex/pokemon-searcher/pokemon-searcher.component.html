@@ -1,25 +1,32 @@
 <main class="max-w-4xl mx-auto">
   <h1 class="text-6xl text-center">Pokedex</h1>
-  <form [formGroup]="formFilter" (submit)="onSearchPokemon()" class="mx-auto p-2">
-    <input type="text" formControlName="searcher" class="w-full p-2	border-solid border-2 border-sky-500 rounded-lg"
-      placeholder="Search...">
+  <form [formGroup]="formFilter" class="relative mx-auto p-2">
+    <div class="p-2">
+      <input type="text" formControlName="searcher" class="w-full p-2	border-solid border-2 border-sky-500 rounded-lg"
+        placeholder="Search..." (input)="onSearchPokemon()">
+      <ul *ngIf="suggestionOptions.length" class="absolute list-none border-2 top-14 left-4 right-4 bg-slate-50 border-sky-500">
+        <li *ngFor="let suggestionItem of suggestionOptions" class="p-2 hover:bg-sky-500 hover:text-white hover:cursor-pointer"
+          (click)="onSelectPokemon(suggestionItem.name)">
+          {{suggestionItem.name}}</li>
+      </ul>
+    </div>
   </form>
-  <div class="mx-auto p-2 flex flex-wrap justify-center gap-x-4 gap-y-4 ">
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
-    <app-poke-card></app-poke-card>
+  <div *ngIf="pokemonSelected" class="mx-auto p-2 flex flex-col flex-wrap justify-center gap-x-4 gap-y-4 ">
+    <h2 class="text-center text-2xl">#{{pokemonSelected.order}} {{pokemonSelected.name | titlecase}}</h2>
+    <div class="h-72 bg-center bg-no-repeat bg-contain" [style]="'background-image: url('+getSelectedPokemonImage()+')'"></div>
+    <div class="flex justify-center">
+      <div class="text-2xl">
+        <i class="fas fa-weight"></i><b> Weight: </b>{{pokemonSelected.weight}} kg
+      </div>
+      <div class="text-2xl px-3"> | </div>
+      <div class="text-2xl">
+        <i class="fas fa-ruler-vertical"></i><b> Height: </b>{{pokemonSelected.height}} m
+      </div>
+    </div>
+
+    <h3>Bases Stats</h3>
+    <ul>
+      <li *ngFor="let baseStat of pokemonSelected.stats"><b>{{baseStat.stat.name | titlecase}}: </b>{{baseStat.base_stat}}</li>
+    </ul>
   </div>
 </main>
