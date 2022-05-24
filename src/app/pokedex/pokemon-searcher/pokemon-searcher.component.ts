@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-pokemon-searcher',
@@ -7,11 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PokemonSearcherComponent implements OnInit {
 
-  searcher: string = ''
+  formFilter: FormGroup = new FormGroup({
+    searcher: new FormControl(''),
+  })
+
+  get searcher() { return this.formFilter.controls.searcher.value }
 
   constructor() { }
 
+
   ngOnInit(): void {
+  }
+
+  onSearchPokemon() {
+    console.log('search text', this.formFilter.controls.searcher.value);
   }
 
 }

@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PokemonSearcherComponent } from './pokemon-searcher/pokemon-searcher.component';
 import { RouterModule, Routes } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PokeCardComponent } from './pokemon-searcher/components/poke-card/poke-card.component';
 
 const routes: Routes = [
   { path: '', component: PokemonSearcherComponent },
@@ -10,12 +11,14 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    PokemonSearcherComponent
+    PokemonSearcherComponent,
+    PokeCardComponent
   ],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class PokedexModule { }

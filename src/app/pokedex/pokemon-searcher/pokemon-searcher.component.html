@@ -1,4 +1,25 @@
-<main>
-  <h1 class="text-6xl text-center">Pokedex: {{searcher}}</h1>
-  <input type="text" [(ngModel)]="searcher" class="border-solid border-4 border-sky-500 rounded mx-auto">
+<main class="max-w-4xl mx-auto">
+  <h1 class="text-6xl text-center">Pokedex</h1>
+  <form [formGroup]="formFilter" (submit)="onSearchPokemon()" class="mx-auto p-2">
+    <input type="text" formControlName="searcher" class="w-full p-2	border-solid border-2 border-sky-500 rounded-lg"
+      placeholder="Search...">
+  </form>
+  <div class="mx-auto p-2 flex flex-wrap justify-center gap-x-4 gap-y-4 ">
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+    <app-poke-card></app-poke-card>
+  </div>
 </main>
